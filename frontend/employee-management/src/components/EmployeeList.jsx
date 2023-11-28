@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import EmployeeService from "../services/EmployeeService";
+import Employeee from "./Employeee";
 function EmployeeList() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,19 @@ function EmployeeList() {
     fetchData();
     setLoading(false);
   }, []);
+  function handleDelete(e,id){
+    e.preventDefault();
+    EmployeeService.deleteEmployees(id)
+    .then(response=>{
+      if(employees){
+        setEmployees(employees.filter(emp => emp.id != id))
+      }
+      console.log(response);
+    })
+    .catch(error=>{
+      console.log(error);
+    })
+  }
 
   return (
     <div className="container mx-auto my-8">
@@ -56,31 +70,7 @@ function EmployeeList() {
             </thead>
             <tbody>
               {employees.map((emp) => (
-                <tr key={emp.id}>
-                  <td className="text-left px-6 py-4 whitespace-nowrap text-sm">
-                    {emp.firstName}
-                  </td>
-                  <td className="text-left px-6 py-4 whitespace-nowrap text-sm">
-                    {emp.lastName}
-                  </td>
-                  <td className="text-left px-6 py-4 whitespace-nowrap text-sm">
-                    {emp.emailId}
-                  </td>
-                  <td className=" text-right px-6 py-4 whitespace-nowrap font-medium text-sm">
-                    <a
-                      href="#"
-                      className="text-indigo-600 hover:text-indigo-800 px-4"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      href="#"
-                      className="text-indigo-600 hover:text-indigo-800 px-4"
-                    >
-                      Delete
-                    </a>
-                  </td>
-                </tr>
+                <Employeee emp={emp} key={emp.id} handleDelete={handleDelete}/>
               ))}
             </tbody>
           </table>

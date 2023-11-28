@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AddEmployee from "./components/AddEmployee.jsx";
 import Navbar from "./components/Navbar.jsx";
 import EmployeeList from "./components/EmployeeList.jsx";
+import UpdateEmployee from "./components/UpdateEmployee.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
         path: "/addEmployee",
         element: <AddEmployee />,
       },
+      {
+        path: "/editEmployee/:id",
+        element: <UpdateEmployee />
+      }
     ],
   },
 ]);
